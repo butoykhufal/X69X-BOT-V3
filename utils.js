@@ -305,6 +305,10 @@ function toGlobalFontStyle(text) {
 function formatOutgoingMessage(form) {
         if (typeof form === "string")
                 return toGlobalFontStyle(form);
+        if (form && typeof form === "object" && form.skipFontStyle === true) {
+                const { skipFontStyle, ...messageForm } = form;
+                return messageForm;
+        }
         if (form && typeof form === "object" && typeof form.body === "string")
                 return {
                         ...form,
@@ -317,6 +321,7 @@ function applyGlobalFontStyle(api) {
         if (!api || typeof api.sendMessage !== "function" || api.__globalFontStyleApplied)
                 return api;
         const sendMessage = api.sendMessage.bind(api);
+        api.sendMessagePlain = sendMessage;
         api.sendMessage = function (form, ...args) {
                 return sendMessage(formatOutgoingMessage(form), ...args);
         };
