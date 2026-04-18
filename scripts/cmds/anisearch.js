@@ -15,20 +15,9 @@ module.exports = {
   },
 
   onStart: async function({ message, args, api, event }) {
-    return this.run({ message, args, api, event });
-  },
-
-  onChat: async function({ message, args, event, api }) {
-    const body = (event.body || "").toLowerCase();
-    if (!body.startsWith("anisearch")) return;
-    args = body.split(" ").slice(1);
-    return this.run({ message, args, api, event });
-  },
-
-  run: async function({ message, args, api, event }) {
     try {
       const character = args.join(" ").trim();
-      const apiUrl = `https://azadx69x-all-apis-top.vercel.app/api/anisearch?character=${encodeURIComponent(character)}`;
+      const apiUrl = `https://azadx69x.is-a.dev/api/anisearch?character=${encodeURIComponent(character)}`;
     	
       api.setMessageReaction("🎌", event.messageID, event.threadID, () => {}, true);
 
